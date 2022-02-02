@@ -1,14 +1,21 @@
 <script setup>
+import { ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable';
 import ALL_BOOKS_QUERY from './graphql/allBooks.query.gql'
-const { result } = useQuery(ALL_BOOKS_QUERY)
 
+const searchTerm = ref('')
+const { result, loading, error } = useQuery(ALL_BOOKS_QUERY, () => ({ search: searchTerm.value }))
 </script>
 
 <template>
-  <p v-for="book in result.allBooks" :key="book.id">
-    {{ book.title }}
-  </p>
+  <input type="text" v-model="searchTerm" />
+  <p v-if="loading">loading...</p>
+  <p v-else-if="error">Something went wrong! Please try again</p>
+  <template v-else>
+    <p v-for="book in result.allBooks" :key="book.id">
+      {{ book.title }}
+    </p>
+  </template>
 </template>
 
 <style>
