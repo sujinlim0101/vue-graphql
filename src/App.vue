@@ -1,17 +1,8 @@
 <script setup>
 import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag'
+import ALL_BOOKS_QUERY from './graphql/allBooks.query.gql'
+const { result } = useQuery(ALL_BOOKS_QUERY)
 
-const ALL_BOOKS_QUERY = gql`
-  query AllBooks {
-    allBooks {
-      id
-      title
-      rating
-    }
-  }
-`
-  const { result } = useQuery(ALL_BOOKS_QUERY)
 </script>
 
 <template>
